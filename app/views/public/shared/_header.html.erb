@@ -10,7 +10,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ml-auto d-flex justify-content-end">
-        <% if customer_signed_in? %>
+        <% if user_signed_in? %>
           <li class="nav-item">
             <%= link_to public_user_path(current_customer), class: "nav-link text-light" do %>
               <i class="fas fa-user"></i> マイページ
@@ -33,12 +33,12 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to new_public_registration_path, class: "nav-link text-light" do %>
+            <%= link_to new_user_registration_path, class: "nav-link text-light" do %>
               <i class="fas fa-user-plus" aria-hidden="true"></i> 新規登録
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to new_public_session_path, class: "nav-link text-light" do %>
+            <%= link_to new_user_session_path, class: "nav-link text-light" do %>
               <i class="fas fa-sign-in-alt"></i> ログイン
             <% end %>
           </li>

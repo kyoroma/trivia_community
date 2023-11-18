@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
-  namespace :public do
+  devise_for :admins, controllers: {
+    sessions: "admin/sessions"
+  }
+
+  devise_for :users, controllers: {
+    registrations: "public/registrations",
+    sessions: 'public/sessions'
+  }
+
+  scope module: :public do
     resources :homes, only: [:top]
     resources :posts, only: [:index, :new, :show, :create]
     resources :registrations, only: [:new, :create]
@@ -14,25 +23,19 @@ Rails.application.routes.draw do
     resources :comments, only: [:new, :show, :create, :index]
     resources :tags, only: [:index, :new, :edit, :create, :update]
     resources :favorites, only: [:create, :destroy]
+    post '/public/guest_sign_in', to: 'public/sessions#new_guest'
   end
 
   namespace :admin do
+    root to: 'homes#top'
     resources :homes, only: [:new, :create, :destroy, :top]
     resources :posts, except: [:edit]
     resources :users, only: [:index, :show, :edit, :update]
     resources :comments, only: [:index, :edit, :update, :destroy]
     resources :post_tags, except: [:edit]
     resources :tags, except: [:show, :destroy]
+    delete '/sign_out', to: 'sessions#destroy', as: :destroy_admin_session
   end
-
-  devise_for :admins, controllers: {
-    sessions: "admin/sessions"
-  }
-
-  devise_for :users, controllers: {
-    registrations: "public/registrations",
-    sessions: 'public/sessions'
-  }
 
   root to: 'public/homes#top'
 end
