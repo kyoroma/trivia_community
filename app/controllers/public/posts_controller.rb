@@ -1,10 +1,12 @@
 class Public::PostsController < ApplicationController
   def index
-    if params[:q].present?
-      @posts = Post.where("title LIKE ? OR content LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
-    else
-      @posts = Post.all
-    end
+    @posts = if params[:q].present?
+               Post.where("title LIKE ? OR content LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+             elsif params[:tag_id].present?
+               Tag.find(params[:tag_id]).posts
+             else
+               Post.all
+             end
   end
 
   def new
