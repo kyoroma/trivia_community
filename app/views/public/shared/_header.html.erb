@@ -9,6 +9,11 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <%= form_tag(posts_path, method: :get, class: "form-inline my-2 my-lg-0 ml-auto") do %>
+        <%= text_field_tag :q, params[:q], class: "form-control mr-sm-2", placeholder: "キーワードを入力" %>
+        <%= submit_tag "検索", class: "btn btn-outline-success my-2 my-sm-0" %>
+      <% end %>
+
       <ul class="navbar-nav ml-auto d-flex justify-content-end">
         <% if user_signed_in? %>
           <li class="nav-item">

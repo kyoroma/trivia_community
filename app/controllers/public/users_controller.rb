@@ -1,6 +1,6 @@
 class Public::UsersController < ApplicationController
    before_action :authenticate_user!
-  
+
   def show
     @user = current_user
   end
@@ -20,16 +20,16 @@ class Public::UsersController < ApplicationController
 
   def confirm_deactivation
   end
-  
+
   def deactivation
     current_user.update(status: 'inactive')
     sign_out(current_user)
     redirect_to root_path, notice: '退会が完了しました。'
   end
-  
+
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :image)
   end
 end
