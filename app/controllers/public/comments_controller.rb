@@ -13,14 +13,14 @@ class Public::CommentsController < ApplicationController
     if @comment.save
       redirect_to @post, notice: 'コメントが投稿されました。'
     else
-      render :new
+      redirect_to @post, alert: 'コメントの投稿に失敗しました。'
     end
   end
 
   def index
     @comments = Comment.all
   end
-  
+
   private
 
   def comment_params

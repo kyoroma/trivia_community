@@ -1,11 +1,17 @@
 class Public::FavoritesController < ApplicationController
+  before_action :authenticate_user!, only: [:index]
+
+  def index
+    @favorites = current_user.favorites.includes(:post)
+  end
+
   def create
     @post = Post.find(params[:post_id])
     @favorite = current_user.favorites.build(post: @post)
     if @favorite.save
-      redirect_to @post, notice: 'いいねしました。'
+      redirect_to public_post_path(@post), notice: 'いいねしました。'
     else
-      redirect_to @post, alert: 'いいねに失敗しました。'
+      redirect_to public_post_path(@post), alert: 'いいねに失敗しました。'
     end
   end
 

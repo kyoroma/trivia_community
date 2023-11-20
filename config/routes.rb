@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     resources :posts_tags, only: [:index, :show, :new, :create]
     resources :comments, only: [:new, :show, :create, :index]
     resources :tags, only: [:index, :new, :edit, :create, :update]
-    resources :favorites, only: [:create, :destroy]
+    resources :favorites, only: [:create, :destroy, :index]
     resources :post_images, only: [:new, :index, :show]
     post '/public/guest_sign_in', to: 'public/sessions#new_guest'
   end
