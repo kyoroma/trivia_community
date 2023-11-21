@@ -20,20 +20,25 @@ Rails.application.routes.draw do
 
   scope module: :public do
     resources :homes, only: [:top]
-    resources :posts, only: [:index, :new, :show, :create]
     resources :registrations, only: [:new, :create]
     resources :sessions, only: [:new, :create, :destroy]
+    resources :posts_tags, only: [:index, :show, :new, :create]
+    resources :comments, only: [:new, :show, :create, :index]
+    resources :tags, only: [:index, :new, :edit, :create, :update]
+    resources :favorites, only: [:create, :destroy, :index]
+    resources :post_images, only: [:new, :index, :show]
     resources :users, only: [:show, :edit, :update] do
       collection do
         get :confirm_deactivation
         patch :deactivation
       end
     end
-    resources :posts_tags, only: [:index, :show, :new, :create]
-    resources :comments, only: [:new, :show, :create, :index]
-    resources :tags, only: [:index, :new, :edit, :create, :update]
-    resources :favorites, only: [:create, :destroy, :index]
-    resources :post_images, only: [:new, :index, :show]
+
+    resources :posts do
+      member do
+        patch 'toggle_publish'
+      end
+    end
     post '/public/guest_sign_in', to: 'public/sessions#new_guest'
   end
 
@@ -42,7 +47,7 @@ Rails.application.routes.draw do
     resources :homes, only: [:new, :create, :destroy, :top]
     resources :posts, except: [:edit]
     resources :users, only: [:index, :show, :edit, :update]
-    resources :comments, only: [:index, :edit, :update, :destroy]
+    resources :comments, only: [:index, :edit, :update, :destroy, :show]
     resources :post_tags, except: [:edit]
     resources :tags, except: [:show, :destroy]
     resources :post_images, only: [:new, :index, :show]

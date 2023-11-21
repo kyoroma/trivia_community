@@ -2,7 +2,11 @@ class Admin::CommentsController < ApplicationController
   before_action :set_comment, only: [:edit, :update, :destroy]
 
   def index
-    @comments = Comment.all
+    @comments = Comment.where(admin_comment: true)
+  end
+
+  def show
+    @comment = Comment.find(params[:id])
   end
 
   def edit
@@ -18,6 +22,7 @@ class Admin::CommentsController < ApplicationController
   end
 
   def destroy
+    @comment = Comment.find(params[:id])
     @comment.destroy
     redirect_to admin_comments_path, notice: 'コメントが削除されました。'
   end

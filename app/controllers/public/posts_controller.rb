@@ -9,6 +9,12 @@ class Public::PostsController < ApplicationController
              end
   end
 
+  def toggle_publish
+    @post = Post.find(params[:id])
+    @post.toggle!(:published)
+    redirect_to @post, notice: '投稿の公開状態を変更しました。'
+  end
+
   def new
     @post = Post.new
   end

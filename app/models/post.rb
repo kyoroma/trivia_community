@@ -8,4 +8,5 @@ class Post < ApplicationRecord
 
   validates :posted_article, presence: true
   validates :tag_list, presence: true
+  validates :published, inclusion: { in: [true, false] }
 end
