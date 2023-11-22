@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :tags, only: [:index, :new, :edit, :create, :update]
     resources :favorites, only: [:create, :destroy, :index]
     resources :post_images, only: [:new, :index, :show]
+    resources :genres, only: [:index]
     resources :users, only: [:show, :edit, :update] do
       collection do
         get :confirm_deactivation
@@ -51,6 +52,7 @@ Rails.application.routes.draw do
     resources :post_tags, except: [:edit]
     resources :tags, except: [:show, :destroy]
     resources :post_images, only: [:new, :index, :show]
+    resources :genres, only: [:index, :new, :create]
     delete '/sign_out', to: 'sessions#destroy', as: :destroy_admin_session
   end
 

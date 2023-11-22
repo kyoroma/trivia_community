@@ -5,6 +5,7 @@ class Post < ApplicationRecord
   has_many :favorited_by, through: :favorites, source: :user
   
   counter_culture :favorites
+  belongs_to :genre
 
   validates :posted_article, presence: true
   validates :tag_list, presence: true
