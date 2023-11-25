@@ -9,11 +9,11 @@ Rails.application.routes.draw do
     get 'post_images/index'
     get 'post_images/show'
   end
-  devise_for :admins, controllers: {
+  devise_for :admin, skip: [:registrations, :passwords], controllers: {
     sessions: "admin/sessions"
   }
 
-  devise_for :users, controllers: {
+  devise_for :users, skip: [:passwords], controllers: {
     registrations: "public/registrations",
     sessions: 'public/sessions'
   }
@@ -45,7 +45,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'homes#top'
-    resources :homes, only: [:new, :create, :destroy, :top]
+    resources :homes, only: [:top]
     resources :posts, except: [:edit]
     resources :users, only: [:index, :show, :edit, :update]
     resources :comments, only: [:index, :edit, :update, :destroy, :show]

@@ -11,7 +11,7 @@
 <body>
   <p id="notice"></p>
   <div class="container mx-auto">
-    <%= form_with(model: resource, local: true, url: session_path(resource_name), id: "admin-login-form") do |f| %>
+    <%= form_for(resource, as: resource_name, url: admin_session_path, html: { id: "admin-login-form" }) do |f| %>
       <h2>管理者ログイン</h2>
 
       <div class="container text-center">

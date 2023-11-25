@@ -1,8 +1,14 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="text-left">
-      <%= link_to admin_root_path, class: "navbar-brand" do %>
-        <h2><span>TriviaCommunity</span></h2>
+      <% if current_admin %>
+        <%= link_to admin_root_path, class: "navbar-brand" do %>
+          <h2><span>TriviaCommunity</span></h2>
+        <% end %>
+      <% else %>
+        <%= link_to admin_root_path, class: "navbar-brand" do %>
+          <h2><span>TriviaCommunity</span></h2>
+        <% end %>
       <% end %>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +16,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ml-auto d-flex justify-content-end">
-        <% if user_signed_in? %>
+        <% if current_admin %>
+          <li class="nav-item">
+            <%= link_to admin_users_path, class: "nav-link text-light" do %>
+              <i class="fas fa-user-plus" aria-hidden="true"></i> 会員一覧
+            <% end %>
+          </li>
           <li class="nav-item">
             <%= link_to admin_genres_path, class: "nav-link text-light" do %>
               <i class="fas fa-shopping-cart"></i> ジャンル一覧
