@@ -1,2 +1,71 @@
-<h1>Admin::Users#edit</h1>
-<p>Find me in app/views/admin/users/edit.html.erb</p>
+<style>
+  h3 {
+    padding: 0 20px;
+    background-color: #E5E8E8;
+  }
+
+  h5 {
+    padding: 0 20px;
+    background-color: #E5E8E8;
+  }
+</style>
+
+<%= render partial: 'admin/shared/header' %>
+
+<div class="container mt-5">
+  <h3 style="display: inline-block;"><%= @user.name %>の会員詳細</h3>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <%= form_with(model: @user, url: admin_user_path(@user), method: :patch) do |form| %>
+        <dl class="row mb-1">
+          <dt class="col-sm-4">会員ID</dt>
+          <dd class="col-sm-8"><%= @user.id %></dd>
+
+          <dt class="col-sm-4">ネーム</dt>
+          <dd class="col-sm-8"><%= form.text_field :name, class: 'form-control' %></dd>
+
+          <dt class="col-sm-4">メールアドレス</dt>
+          <dd class="col-sm-8"><%= form.email_field :email, class: 'form-control' %></dd>
+
+          <dt class="col-sm-4">会員ステータス</dt>
+          <dd class="col-sm-8">
+            <%= form.collection_radio_buttons :is_active, [[true, '有効'], [false, '退会']], :first, :last %>
+          </dd>
+        </dl>
+
+        <div class="row mt-2" style="white-space: nowrap;">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-2">
+            <%= form.submit '更新する', class: 'btn btn-success' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-6">
+      <h5 style="display: inline-block;">コメント一覧</h5>
+      <div class="card">
+        <div class="card-body">
+          <% if @comments.present? %>
+            <% @comments.each do |comment| %>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <p><%= comment.content %></p>
+                </div>
+                <div class="col-md-4">
+                  <p><%= comment.genre.name if comment.genre %></p>
+                </div>
+                <div class="col-md-2">
+                  <%= link_to '削除', admin_comment_path(comment), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-danger' %>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <p>コメントはありません。</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

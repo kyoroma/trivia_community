@@ -1,0 +1,67 @@
+<!-- views/admin/genres/index.html.erb -->
+
+<style>
+  h3 {
+    padding: 0 20px;
+    background-color: #E5E8E8;
+  }
+
+  h5 {
+    padding: 0 20px;
+    background-color: #E5E8E8;
+  }
+
+  .genre-container {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 20px;
+    width: 300px;
+    display: inline-block;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .genre-container .row {
+    border-bottom: 1px solid #ddd;
+  }
+</style>
+
+<%= render partial: 'admin/shared/header' %>
+
+<div class="container mt-5">
+  <h3 style="display: inline-block;">ジャンル一覧</h3>
+
+  <div class="row mt-4">
+  <!-- ジャンル一覧 -->
+    <div class="col-md-5">
+      <div class="genre-container ml-5">
+        <% if @genres.present? %>
+          <% @genres.each do |genre| %>
+            <div class="row">
+              <div class="col-md-6 pt-2">
+                <%= genre.name %>
+              </div>
+              <div class="col-md-3 pt-1 pb-1">
+                <%= link_to '編集', edit_admin_genre_path(genre), class: 'btn btn-success btn-sm' %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p>ジャンルはありません。</p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h5 style="display: inline-block;">ジャンル追加</h5>
+      <!-- ジャンル追加フォーム -->
+      <%= form_with(model: Genre.new, url: admin_genres_path, method: :post) do |form| %>
+        <div class="form-group">
+          <%= form.label :name, 'ジャンル名' %>
+          <%= form.text_field :name, class: 'form-control' %>
+        </div>
+        <%= form.submit '新規登録', class: 'btn btn-success' %>
+      <% end %>
+    </div>
+  </div>
+</div>
