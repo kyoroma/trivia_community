@@ -52,7 +52,7 @@ Rails.application.routes.draw do
     resources :post_tags, except: [:edit]
     resources :tags, except: [:show, :destroy]
     resources :post_images, only: [:new, :index, :show]
-    resources :genres, only: [:index, :new, :create, :edit, :update]
+    resources :genres, only: [:index, :new, :create, :edit, :update, :destroy]
     delete '/sign_out', to: 'sessions#destroy', as: :destroy_admin_session
   end
 

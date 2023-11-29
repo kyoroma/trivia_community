@@ -1,14 +1,12 @@
 <!-- views/admin/genres/index.html.erb -->
 
 <style>
-  h3 {
+  h3, h5 {
     padding: 0 20px;
-    background-color: #E5E8E8;
-  }
-
-  h5 {
-    padding: 0 20px;
-    background-color: #E5E8E8;
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
   }
 
   .genre-container {
@@ -20,28 +18,60 @@
     display: inline-block;
     white-space: nowrap;
     text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+
   .genre-container .row {
     border-bottom: 1px solid #ddd;
+    padding: 10px;
+  }
+
+  .genre-container .row:last-child {
+    border-bottom: none;
+  }
+
+  .genre-container .col-md-6 {
+    padding-top: 8px;
+  }
+
+  .genre-container .col-md-3 {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .genre-container .btn-success {
+    width: 100%;
+  }
+
+  .add-genre-container {
+    margin-top: 20px;
+  }
+
+  .add-genre-container .form-group {
+    margin-bottom: 15px;
+  }
+
+  .add-genre-container .btn-success {
+    width: 100%;
   }
 </style>
 
 <%= render partial: 'admin/shared/header' %>
 
 <div class="container mt-5">
-  <h3 style="display: inline-block;">ジャンル一覧</h3>
+  <h3>ジャンル一覧</h3>
 
   <div class="row mt-4">
-  <!-- ジャンル一覧 -->
+    <!-- ジャンル一覧 -->
     <div class="col-md-5">
       <div class="genre-container ml-5">
         <% if @genres.present? %>
           <% @genres.each do |genre| %>
             <div class="row">
-              <div class="col-md-6 pt-2">
+              <div class="col-md-6">
                 <%= genre.name %>
               </div>
-              <div class="col-md-3 pt-1 pb-1">
+              <div class="col-md-3">
                 <%= link_to '編集', edit_admin_genre_path(genre), class: 'btn btn-success btn-sm' %>
               </div>
             </div>
@@ -52,13 +82,13 @@
       </div>
     </div>
 
-    <div class="col-md-6">
-      <h5 style="display: inline-block;">ジャンル追加</h5>
-      <!-- ジャンル追加フォーム -->
+    <!-- ジャンル追加 -->
+    <div class="col-md-6 add-genre-container">
+      <h5>ジャンル追加</h5>
       <%= form_with(model: Genre.new, url: admin_genres_path, method: :post) do |form| %>
         <div class="form-group">
           <%= form.label :name, 'ジャンル名' %>
-          <%= form.text_field :name, class: 'form-control' %>
+          <%= form.text_field :name, class: 'form-control', placeholder: '新しいジャンル名を入力してください' %>
         </div>
         <%= form.submit '新規登録', class: 'btn btn-success' %>
       <% end %>

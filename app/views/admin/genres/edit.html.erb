@@ -1,0 +1,77 @@
+<!-- views/admin/genres/edit.html.erb -->
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #495057;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h3 {
+    color: #007bff;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+
+  .btn-primary, .btn-danger {
+    color: #fff;
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+  }
+
+  .btn-primary:hover, .btn-danger:hover {
+    background-color: #0056b3;
+    border: 1px solid #0056b3;
+  }
+</style>
+
+<%= render partial: 'admin/shared/header' %>
+
+<div class="container">
+  <h3>ジャンル編集</h3>
+
+  <%= form_with(model: @genre, url: admin_genre_path(@genre), method: :patch) do |form| %>
+    <div class="form-group">
+      <%= form.label :name, 'ジャンル名' %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+
+    <%= form.submit '保存', class: 'btn btn-primary' %>
+    <%= link_to '削除', admin_genre_path(@genre), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+  <% end %>
+</div>
