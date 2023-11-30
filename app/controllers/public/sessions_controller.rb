@@ -23,11 +23,18 @@ class Public::SessionsController < Devise::SessionsController
   #   super
   # end
 
+  def create
+    self.resource = warden.authenticate!(auth_options)
+    set_flash_message!(:notice, :signed_in)
+    sign_in(resource_name, resource)
+    respond_with resource, location: after_sign_in_path_for(resource)
+  end
+
   def after_sign_out_path_for(resource)
     root_path # ログアウト後の遷移先
   end
 
-  def new_guest
+  def public_guest_sign_in
     user = User.create_guest
     sign_in(user)
     redirect_to root_path, notice: "ゲストユーザーとしてログインしました。"
@@ -36,11 +43,7 @@ class Public::SessionsController < Devise::SessionsController
   protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  def configure_sign_in_params
-    devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-  end
-
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:name, :email, :password])
   end
 end

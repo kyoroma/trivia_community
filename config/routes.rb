@@ -13,10 +13,14 @@ Rails.application.routes.draw do
     sessions: "admin/sessions"
   }
 
-  devise_for :users, skip: [:passwords], controllers: {
+  devise_for :users, controllers: {
     registrations: "public/registrations",
     sessions: 'public/sessions'
   }
+
+  devise_scope :user do
+    post 'public/guest_sign_in', to: 'public/sessions#public_guest_sign_in'
+  end
 
   scope module: :public do
     resources :homes, only: [:top]
@@ -40,7 +44,6 @@ Rails.application.routes.draw do
         patch 'toggle_publish'
       end
     end
-    post '/public/guest_sign_in', to: 'public/sessions#new_guest'
   end
 
   namespace :admin do
