@@ -1,15 +1,27 @@
 <%= render partial: 'public/shared/header' %>
 
-<div class="container mx-auto">
+<div class="container mx-auto mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-8 mt-3 text-center">
-      <div class="text-center mt-4">
-        <p>このコミュニティーサイトは
-          <br>皆さんが知っている雑学を
-          <br>共有し、たくさんの情報が集まる場に、
-          <br>できることを目的に作られています。
-          <br>たくさんのご参加をお待ちしています。
-        </p>
+    <div class="col-md-8">
+      <div class="text-center">
+        <p class="mb-4">このコミュニティーサイトは、皆さんが知っている雑学を共有し、たくさんの情報が集まる場に、できることを目的に作られています。たくさんのご参加をお待ちしています。</p>
+      </div>
+
+      <div class="mt-5">
+        <h3 class="mb-4">ジャンル一覧</h3>
+
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+          <% @genres.each do |genre| %>
+            <div class="col">
+              <div class="card h-100">
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <h5 class="card-title mb-3"><%= genre.name %></h5>
+                  <%= link_to '詳細', public_genre_path(genre), class: 'btn btn-primary btn-sm align-self-end' %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

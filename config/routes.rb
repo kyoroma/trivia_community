@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get 'post_images/show'
   end
   namespace :public do
+    resources :genres, only: [:index, :show]
     get 'post_images/new'
     get 'post_images/index'
     get 'post_images/show'
@@ -31,8 +32,11 @@ Rails.application.routes.draw do
     resources :tags, only: [:index, :new, :edit, :create, :update]
     resources :favorites, only: [:create, :destroy, :index]
     resources :post_images, only: [:new, :index, :show]
-    resources :genres, only: [:index]
+    resources :genres, only: [:index, :show]
     resources :users, only: [:show, :edit, :update] do
+      member do
+        get :my_page
+      end
       collection do
         get :confirm_deactivation
         patch :deactivation

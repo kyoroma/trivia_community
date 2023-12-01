@@ -19,6 +19,11 @@ class Public::UsersController < ApplicationController
     end
   end
 
+  def my_page
+    @user = current_user
+    @favorites = @user.favorites.includes(:post).order(created_at: :desc)
+  end
+
   def confirm_deactivation
   end
 
