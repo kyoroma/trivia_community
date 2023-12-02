@@ -1,4 +1,6 @@
 class Public::PostsController < ApplicationController
+  before_action :set_genre, only: [:create]
+
   def index
     @posts = if params[:q].present?
                Post.where("title LIKE ? OR content LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
@@ -24,21 +26,33 @@ class Public::PostsController < ApplicationController
   end
 
   def create
-    @post = current_user.posts.build(post_params)
+    @post = @genre.posts.new(post_params)
+
+    # タグを保存する前に、カンマや改行で分割して配列に変換
+    tag_list = post_params[:tag_list].split(/[,|\n]/).map(&:strip)
+
+    # タグを設定
+    @post.tag_list = tag_list
+
     if @post.save
-      redirect_to @post, notice: '投稿が作成されました。'
+      redirect_to public_genre_path(@genre), notice: '投稿が成功しました。'
     else
       render :new
     end
   end
-  
+
   def search
     @results = Post.where("posted_article LIKE ?", "%#{params[:keyword]}%")
   end
 
   private
 
+  def set_genre
+    # params から genre_id を取得して @genre を設定する
+    @genre = Genre.find(params[:post][:genre_id])
+  end
+
   def post_params
-    params.require(:post).permit(:title, :content)
+    params.require(:post).permit(:title, :content, :posted_article, :image, :tag_list, :genre_id)
   end
 end

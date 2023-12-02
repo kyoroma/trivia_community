@@ -6,13 +6,15 @@
 
   <div class="mb-3">
     <%= form.label :タグリスト, class: "form-label" %>
-    <%= form.text_field :tag_list, class: "form-control" %>
+    <%= form.text_field :tag_list, class: "form-control", placeholder: "タグ1, タグ2, タグ3", rows: 2 %>
   </div>
 
   <div class="mb-3">
     <%= form.label :image, class: "form-label" %>
     <%= form.file_field :image, class: "form-control" %>
   </div>
+
+  <%= form.hidden_field :genre_id, value: @genre.id %>
 
   <div class="d-grid">
     <%= form.submit "新規作成", class: "btn btn-success" %>
