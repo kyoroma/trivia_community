@@ -29,6 +29,11 @@ class Public::TagsController < ApplicationController
     end
   end
 
+  def search
+    @tag = Tag.find_by(name: params[:tag])
+    @results = @tag.posts if @tag
+  end
+
   private
 
   def tag_params

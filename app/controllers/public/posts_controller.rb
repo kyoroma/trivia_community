@@ -31,6 +31,10 @@ class Public::PostsController < ApplicationController
       render :new
     end
   end
+  
+  def search
+    @results = Post.where("posted_article LIKE ?", "%#{params[:keyword]}%")
+  end
 
   private
 

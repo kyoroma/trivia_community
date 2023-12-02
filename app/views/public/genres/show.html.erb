@@ -1,0 +1,36 @@
+<%= render partial: 'public/shared/header' %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="text-center mb-4">
+        <h2><%= @genre.name %>の詳細</h2>
+      </div>
+
+      <div class="mb-4">
+        <h4>投稿された記事</h4>
+        <% if @genre.posts.any? %>
+          <ul class="list-group">
+            <% @genre.posts.page(params[:page]).per(10).each do |post| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= link_to post.posted_article, public_post_path(post) %>
+                <span class="badge bg-secondary"><%= post.created_at.strftime("%Y-%m-%d") %></span>
+              </li>
+            <% end %>
+          </ul>
+          <div class="mt-3">
+            <%= paginate @genre.posts %>
+          </div>
+        <% else %>
+          <p>まだ投稿はありません。</p>
+        <% end %>
+      </div>
+
+      <div>
+        <h4>新規投稿記事作成</h4>
+
+        <%= render 'public/posts/form', post: @genre.posts.new %>
+      </div>
+    </div>
+  </div>
+</div>
