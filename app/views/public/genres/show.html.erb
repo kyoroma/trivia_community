@@ -26,10 +26,8 @@
         <% end %>
       </div>
 
-      <div>
-        <h4>新規投稿記事作成</h4>
-
-        <%= render 'public/posts/form', post: @genre.posts.new %>
+      <div class="text-center">
+        <%= link_to '新しい投稿を作成する', new_post_path, class: 'btn btn-primary' %>
       </div>
     </div>
   </div>

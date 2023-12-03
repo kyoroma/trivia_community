@@ -35,8 +35,10 @@ class Public::PostsController < ApplicationController
     @post.tag_list = tag_list
 
     if @post.save
-      redirect_to public_genre_path(@genre), notice: '投稿が成功しました。'
+      redirect_to post_path(@post), notice: '投稿が成功しました。'
     else
+      flash.now[:alert] = '投稿に失敗しました。'
+      flash.now[:alert_details] = @post.errors.full_messages.join(', ')
       render :new
     end
   end
@@ -53,6 +55,6 @@ class Public::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :content, :posted_article, :image, :tag_list, :genre_id)
+    params.require(:post).permit(:title, :content, :posted_article, :image, :tag_list, :genre_id, :published)
   end
 end

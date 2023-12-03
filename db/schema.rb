@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_02_122810) do
+ActiveRecord::Schema.define(version: 2023_12_03_091312) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 2023_12_02_122810) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "favorites_count"
-    t.boolean "published"
+    t.boolean "published", default: false
     t.integer "genre_id"
     t.index ["genre_id"], name: "index_posts_on_genre_id"
     t.index ["post_id"], name: "index_posts_on_post_id", unique: true
