@@ -4,7 +4,7 @@ class CreatePostTags < ActiveRecord::Migration[6.1]
       t.integer :post_tag_id, null: false
       t.integer :post_id, null: false
       t.integer :tag_id, null: false
-      t.string :tag_list, null: false
+      t.string :tag_list
       t.timestamps
 
       t.index :post_tag_id, unique: true

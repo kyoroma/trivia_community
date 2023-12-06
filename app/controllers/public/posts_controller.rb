@@ -1,5 +1,5 @@
 class Public::PostsController < ApplicationController
-  before_action :set_genre, only: [:create]
+  before_action :set_genre, only: [:create, :new], if: -> { action_name != 'new' }
 
   def index
     @posts = if params[:q].present?
@@ -19,29 +19,45 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
+    #set_genre # set_genre メソッドを呼び出して @genre をセット
+    @genres = Genre.all # ジャンルの一覧を取得
+    Rails.logger.debug "Genres in PostsController: #{@genres.inspect}" # ログを追加
   end
 
   def show
     @post = Post.find(params[:id])
+    @comments = @post.comments # コメント一覧を取得
+    # 新規コメント投稿用の空のコメントオブジェクトを作成
+    @new_comment = Comment.new
   end
 
   def create
+    @genres = Genre.all
+    @genre = Genre.find_by(id: params[:post][:genre_id])
     @post = @genre.posts.new(post_params)
 
     # タグを保存する前に、カンマや改行で分割して配列に変換
-    tag_list = post_params[:tag_list].split(/[,|\n]/).map(&:strip)
+    tag_list = params[:post][:tag_list].split(',').map(&:strip)
+    @post.tag_list.add(tag_list, parse: true)
 
-    # タグを設定
-    @post.tag_list = tag_list
+    # タグが存在するか確認してから設定
+    if tag_list.present?
+      @post.tag_list = tag_list
 
-    if @post.save
-      redirect_to post_path(@post), notice: '投稿が成功しました。'
+      if @post.save
+        redirect_to post_path(@post), notice: '投稿が成功しました。'
+      else
+        flash.now[:alert] = '投稿に失敗しました。'
+        flash.now[:alert_details] = @post.errors.full_messages.join(', ')
+        Rails.logger.debug "Post save result: #{@post.errors}"
+        render :new
+      end
     else
-      flash.now[:alert] = '投稿に失敗しました。'
-      flash.now[:alert_details] = @post.errors.full_messages.join(', ')
+      flash.now[:alert] = 'タグが必要です。'
       render :new
     end
   end
+
 
   def search
     @results = Post.where("posted_article LIKE ?", "%#{params[:keyword]}%")
@@ -50,8 +66,7 @@ class Public::PostsController < ApplicationController
   private
 
   def set_genre
-    # params から genre_id を取得して @genre を設定する
-    @genre = Genre.find(params[:post][:genre_id])
+   @genres = Genre.all
   end
 
   def post_params

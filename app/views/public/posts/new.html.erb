@@ -1,3 +1,5 @@
+<%= render partial: 'public/shared/header' %>
+
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -15,6 +17,11 @@
             <div class="mb-3">
               <%= form.label :タグリスト, class: "form-label" %>
               <%= form.text_field :tag_list, class: "form-control", placeholder: "タグ1, タグ2, タグ3", rows: 2 %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :genre_id, class: "form-label" %>
+              <%= form.collection_select(:genre_id, @genres, :id, :name, prompt: "ジャンルを選択してください", class: "form-select") %>
             </div>
 
             <div class="mb-3">

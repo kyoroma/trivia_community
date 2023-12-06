@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   end
   namespace :public do
     resources :genres, only: [:index, :show]
+    resources :posts do
+      resources :comments, only: [:create, :destroy]
+    end
     get 'post_images/new'
     get 'post_images/index'
     get 'post_images/show'
