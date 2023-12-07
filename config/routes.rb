@@ -9,9 +9,10 @@ Rails.application.routes.draw do
     resources :posts do
       resources :comments, only: [:create, :destroy]
     end
-    get 'post_images/new'
-    get 'post_images/index'
-    get 'post_images/show'
+
+    resources :post_images, only: [:new, :index, :show]
+    resources :users, only: [:show, :edit, :update]
+
   end
   devise_for :admin, skip: [:registrations, :passwords], controllers: {
     sessions: "admin/sessions"

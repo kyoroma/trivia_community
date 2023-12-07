@@ -15,6 +15,10 @@ class User < ApplicationRecord
     true
   end
 
+  def guest?
+    email == 'guest@example.com'
+  end
+
   # ゲストユーザーを作成するメソッド
   def self.create_guest
     create!(

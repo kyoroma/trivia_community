@@ -1,2 +1,33 @@
-<h1>Public::Users#edit</h1>
-<p>Find me in app/views/public/users/edit.html.erb</p>
+<!-- app/views/public/users/edit.html.erb -->
+
+<%= render partial: 'public/shared/header' %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">ユーザー情報の編集</h2>
+
+          <%= form_with(model: @user, url: public_user_path, method: :patch, local: true, html: { class: 'needs-validation', novalidate: true }) do |form| %>
+            <div class="mb-3">
+              <%= form.label :ユーザーネーム, class: 'form-label' %>
+              <%= form.text_field :name, class: 'form-control', required: true %>
+              <div class="invalid-feedback">ユーザーネームは必須項目です。</div>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :メールアドレス, class: 'form-label' %>
+              <%= form.email_field :email, class: 'form-control', required: true %>
+              <div class="invalid-feedback">メールアドレスは必須項目です。</div>
+            </div>
+
+            <div class="text-center mt-4">
+              <%= form.submit '更新', class: 'btn btn-primary', style: 'width: 130px;' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
