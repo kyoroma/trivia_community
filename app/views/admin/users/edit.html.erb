@@ -1,24 +1,79 @@
 <style>
-  h3 {
-    padding: 0 20px;
-    background-color: #E5E8E8;
+  body {
+    background-color: #f8f9fa;
   }
 
-  h5 {
-    padding: 0 20px;
-    background-color: #E5E8E8;
+  .container {
+    margin-top: 50px;
+  }
+
+  .user-details {
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h3, h5 {
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+  }
+
+  dl.row {
+    margin-bottom: 1rem;
+  }
+
+  dt {
+    font-weight: bold;
+  }
+
+  .edit-button {
+    margin-top: 10px;
+  }
+
+  .comments-section {
+    margin-top: 20px;
+  }
+
+  .comment-card {
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .comment-card .card-body {
+    padding: 20px;
+  }
+
+  .comment-content {
+    font-size: 16px;
+  }
+
+  .genre-name {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+
+  .delete-button {
+    margin-top: 10px;
   }
 </style>
 
 <%= render partial: 'admin/shared/header' %>
 
-<div class="container mt-5">
-  <h3 style="display: inline-block;"><%= @user.name %>の会員詳細</h3>
+<div class="container">
+  <h3><%= @user.name %>の会員詳細編集</h3>
 
-  <div class="row mt-4">
+  <div class="row user-details">
+    <!-- ユーザー情報 -->
     <div class="col-md-6">
       <%= form_with(model: @user, url: admin_user_path(@user), method: :patch) do |form| %>
-        <dl class="row mb-1">
+        <dl class="row">
           <dt class="col-sm-4">会員ID</dt>
           <dd class="col-sm-8"><%= @user.id %></dd>
 
@@ -34,37 +89,47 @@
           </dd>
         </dl>
 
-        <div class="row mt-2" style="white-space: nowrap;">
+        <div class="row mt-2 edit-button" style="white-space: nowrap;">
           <div class="col-sm-4"></div>
           <div class="col-sm-2">
-            <%= form.submit '更新する', class: 'btn btn-success' %>
+            <%= form.submit '更新する', class: 'btn btn-success btn-block', style: 'width: 130px;' %>
           </div>
         </div>
       <% end %>
     </div>
 
+    <!-- コメント一覧 -->
     <div class="col-md-6">
-      <h5 style="display: inline-block;">コメント一覧</h5>
-      <div class="card">
-        <div class="card-body">
-          <% if @comments.present? %>
-            <% @comments.each do |comment| %>
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <p><%= comment.content %></p>
+      <h5>コメント一覧</h5>
+      <div class="comments-section">
+        <% if @comments.present? %>
+          <% @comments.each do |comment| %>
+            <div class="card comment-card">
+              <div class="card-body">
+                <div class="row mb-3">
+                  <div class="col-md-6 comment-content">
+                    <p><%= comment.comment %></p>
+                  </div>
+                  <div class="col-md-6 genre-name">
+                    <% if comment.commentable_type == 'Post' %>
+                      <p><%= comment.commentable.genre&.name || 'ジャンルなし' %></p>
+                    <% elsif comment.commentable_type == 'AnotherType' %>
+                      <!-- 別のポリモーフィック関連があれば同様に追加 -->
+                      <p><%= comment.commentable.another_association&.genre&.name || 'ジャンルなし' %></p>
+                    <% end %>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                  <p><%= comment.genre.name if comment.genre %></p>
-                </div>
-                <div class="col-md-2">
-                  <%= link_to '削除', admin_comment_path(comment), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-danger' %>
+                <div class="row">
+                  <div class="col-md-12 delete-button">
+                    <%= link_to '削除', admin_user_path(@user), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-danger btn-block' %>
+                  </div>
                 </div>
               </div>
-            <% end %>
-          <% else %>
-            <p>コメントはありません。</p>
+            </div>
           <% end %>
-        </div>
+        <% else %>
+          <p>コメントはありません。</p>
+        <% end %>
       </div>
     </div>
   </div>

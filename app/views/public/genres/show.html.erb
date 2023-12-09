@@ -29,7 +29,13 @@
       </div>
 
       <div class="text-center">
-        <%= link_to '新しい投稿を作成する', new_post_path, class: 'btn btn-primary' %>
+        <% if user_signed_in? && !current_user.guest? %>
+          <%= link_to '新しい投稿を作成する', new_post_path, class: 'btn btn-primary' %>
+        <% elsif user_signed_in? %>
+          <!-- ゲストユーザーには何も表示しない -->
+        <% else %>
+          <%= link_to '新しい投稿を作成する', new_user_session_path, class: 'btn btn-primary' %>
+        <% end %>
       </div>
     </div>
   </div>

@@ -17,10 +17,8 @@ class Public::CommentsController < ApplicationController
     if user_signed_in? # ユーザーがサインインしているかどうかを確認
       @comment.user = current_user
     else
-      # ゲストユーザーの場合、適切な処理を追加
-      # 例: ゲストユーザーに紐づくダミーユーザーを作成してコメントに紐づける
-      guest_user = User.create(name: 'Guest User', email: 'guest@example.com')
-      @comment.user = guest_user
+      redirect_to @post, alert: 'ゲストユーザーはコメントを投稿できません。'
+      return
     end
 
     if @comment.save

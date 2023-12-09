@@ -7,5 +7,6 @@ class Public::GenresController < ApplicationController
   def show
     @genre = Genre.find(params[:id])
     @posts = @genre.posts.page(params[:page]).per(10)
+    @user_signed_in = user_signed_in?
   end
 end

@@ -1,5 +1,6 @@
 class Public::PostsController < ApplicationController
   before_action :set_genre, only: [:create, :new], if: -> { action_name != 'new' }
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @posts = if params[:q].present?
@@ -18,10 +19,14 @@ class Public::PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
-    #set_genre # set_genre メソッドを呼び出して @genre をセット
-    @genres = Genre.all # ジャンルの一覧を取得
-    Rails.logger.debug "Genres in PostsController: #{@genres.inspect}" # ログを追加
+    if user_signed_in?
+      @post = Post.new
+      @genres = Genre.all
+      Rails.logger.debug "Genres in PostsController: #{@genres.inspect}"
+    else
+      # ゲストユーザーの場合、リダイレクトまたは必要に応じて処理を追加
+      redirect_to root_path, alert: 'ゲストユーザーは投稿を作成できません。'
+    end
   end
 
   def show

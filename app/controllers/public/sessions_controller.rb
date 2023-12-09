@@ -27,7 +27,11 @@ class Public::SessionsController < Devise::SessionsController
     self.resource = warden.authenticate!(auth_options)
     set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, resource)
-    respond_with resource, location: after_sign_in_path_for(resource)
+
+    respond_to do |format|
+      format.html { redirect_to after_sign_in_path_for(resource) }
+      format.json { render json: { location: after_sign_in_path_for(resource) } }
+    end
   end
 
   def after_sign_out_path_for(resource)
