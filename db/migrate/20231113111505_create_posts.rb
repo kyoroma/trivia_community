@@ -2,7 +2,6 @@ class CreatePosts < ActiveRecord::Migration[6.1]
   def change
     create_table :posts do |t|
       t.text :posted_article, null: false
-      t.string :tag_list
       t.timestamps
       t.integer :favorites_count
       t.boolean :published, default: false

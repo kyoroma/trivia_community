@@ -1,2 +1,39 @@
-<h1>Public::Posts#index</h1>
-<p>Find me in app/views/public/posts/index.html.erb</p>
+<!-- app/views/public/posts/index.html.erb -->
+
+<%= render partial: 'public/shared/header' %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <!-- 検索フォーム -->
+      <%= form_with(url: posts_path, method: :get, class: "mb-3") do |form| %>
+        <div class="input-group">
+          <%= form.text_field :q, value: @q, class: "form-control", placeholder: "キーワードを入力" %>
+          <%= form.text_field :tags, value: @tags.map(&:name).join(','), class: "form-control", placeholder: "タグ1, タグ2, タグ3", rows: 2 %>
+          <div class="input-group-append">
+            <%= form.submit "検索", class: "btn btn-outline-success" %>
+          </div>
+        </div>
+      <% end %>
+      <!-- 投稿一覧 -->
+      <% if @posts.any? %>
+        <ul class="list-group">
+          <% @posts.each do |post| %>
+            <li class="list-group-item">
+              <%= link_to post.posted_article.present? ? post.posted_article.truncate(100) : '内容がありません。', public_post_path(post) %>
+              <div class="mt-2">
+                <!--<strong>タグ：</strong>
+                <% post.tags.each do |tag| %>
+                  <span class="badge bg-secondary"><%= tag.name %></span>
+                <% end %>-->
+              </div>
+            </li>
+          <% end %>
+        </ul>
+        <%= paginate @posts %>
+      <% else %>
+        <p>該当する投稿がありません。</p>
+      <% end %>
+    </div>
+  </div>
+</div>

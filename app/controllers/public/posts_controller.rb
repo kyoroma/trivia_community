@@ -3,13 +3,22 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @posts = if params[:q].present?
-               Post.where("title LIKE ? OR content LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
-             elsif params[:tag_id].present?
-               Tag.find(params[:tag_id]).posts
-             else
-               Post.all
-             end
+    #@tags = Tag.all
+    @q = params[:q]
+    @tag_id = params[:tag_id]
+    @tags = find_or_create_tags_from_params(params)
+
+    @posts = if @q.present?
+      Post.search(params)
+    elsif @tag_id.present?
+      Post.joins(:post_tags).where(post_tags: { tag_id: @tag_id })
+    elsif @tags.present?
+      Post.joins(:post_tags).where(post_tags: { tag_id: @tags.map(&:id) })
+    else
+      Post.all
+    end
+
+    @posts = @posts.page(params[:page]).per(10)
   end
 
   def toggle_publish
@@ -41,13 +50,8 @@ class Public::PostsController < ApplicationController
     @genre = Genre.find_by(id: params[:post][:genre_id])
     @post = @genre.posts.new(post_params)
 
-    # タグを保存する前に、カンマや改行で分割して配列に変換
-    tag_list = params[:post][:tag_list].split(',').map(&:strip)
-    @post.tag_list.add(tag_list, parse: true)
-
     # タグが存在するか確認してから設定
-    if tag_list.present?
-      @post.tag_list = tag_list
+    if @post.tags.present?
 
       if @post.save
         redirect_to post_path(@post), notice: '投稿が成功しました。'
@@ -63,9 +67,12 @@ class Public::PostsController < ApplicationController
     end
   end
 
-
   def search
-    @results = Post.where("posted_article LIKE ?", "%#{params[:keyword]}%")
+    if params[:tag_list].present?
+      @results = Post.tagged_with(params[:tag_list])
+    else
+      @results = Post.where("posted_article LIKE ?", "%#{params[:keyword]}%")
+    end
   end
 
   private
@@ -75,6 +82,13 @@ class Public::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :content, :posted_article, :image, :tag_list, :genre_id, :published)
+    p=params.require(:post).permit(:title, :content, :posted_article, :image, :tags, :genre_id, :published, :tag_id)
+    tags=find_or_create_tags_from_params(p)
+    p.merge(tags: tags)
+  end
+
+  def find_or_create_tags_from_params(p)
+    tag_names=p[:tags].split(',').map(&:strip)
+    tag_names.map{|tag_name|Tag.find_or_create_by(name: tag_name)}
   end
 end

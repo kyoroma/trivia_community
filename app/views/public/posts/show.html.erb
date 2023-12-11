@@ -30,6 +30,13 @@
           </div>
 
           <div class="mb-3">
+            <strong>タグ：</strong>
+            <% @post.tags.each do |tag| %>
+              <span class="badge bg-secondary"><%= tag.name %></span>
+            <% end %>
+          </div>
+
+          <div class="mb-3">
             <h5>コメント一覧</h5>
 
             <% @post.comments.each do |comment| %>
