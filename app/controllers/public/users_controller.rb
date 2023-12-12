@@ -6,6 +6,7 @@ class Public::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @comments = @user.comments
+    @favorites = @user.favorites.includes(:post) # お気に入りに登録した投稿を取得
   end
 
   def edit
@@ -23,7 +24,7 @@ class Public::UsersController < ApplicationController
 
   def my_page
     @user = current_user
-    @favorites = @user.favorites.includes(:post).order(created_at: :desc)
+    @favorites = @user.favorites.includes(post: [:genre, :tags]).order(created_at: :desc)
   end
 
   def confirm_deactivation

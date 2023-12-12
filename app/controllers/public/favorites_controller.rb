@@ -6,19 +6,16 @@ class Public::FavoritesController < ApplicationController
   end
 
   def create
-    @post = Post.find(params[:post_id])
-    @favorite = current_user.favorites.build(post: @post)
-    if @favorite.save
-      redirect_to public_post_path(@post), notice: 'いいねしました。'
-    else
-      redirect_to public_post_path(@post), alert: 'いいねに失敗しました。'
-    end
+    post = Post.find(params[:post_id])
+    favorite = current_user.favorites.new(post: post)
+    favorite.save
+    redirect_to post_path(post)
   end
 
   def destroy
-    @favorite = current_user.favorites.find(params[:id])
-    @post = @favorite.post
-    @favorite.destroy
-    redirect_to @post, notice: 'いいねを解除しました。'
+    favorite = current_user.favorites.find(params[:id])
+    post = favorite.post
+    favorite.destroy
+    redirect_to post_path(post)
   end
 end

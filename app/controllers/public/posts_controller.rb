@@ -3,22 +3,25 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    #@tags = Tag.all
     @q = params[:q]
     @tag_id = params[:tag_id]
     @tags = find_or_create_tags_from_params(params)
 
-    @posts = if @q.present?
-      Post.search(params)
-    elsif @tag_id.present?
-      Post.joins(:post_tags).where(post_tags: { tag_id: @tag_id })
-    elsif @tags.present?
-      Post.joins(:post_tags).where(post_tags: { tag_id: @tags.map(&:id) })
-    else
-      Post.all
-    end
+    if @q.present? || @tags.present?
+      @posts = if @q.present?
+        Post.search(params)
+      elsif @tag_id.present?
+        Post.joins(:post_tags).where(post_tags: { tag_id: @tag_id })
+      elsif @tags.present?
+        Post.joins(:post_tags).where(post_tags: { tag_id: @tags.map(&:id) })
+      else
+        Post.all
+      end
 
-    @posts = @posts.page(params[:page]).per(10)
+      @posts = @posts.page(params[:page]).per(10)
+    else
+      @posts = Post.none  # 検索条件がない場合、結果なし
+    end
   end
 
   def toggle_publish

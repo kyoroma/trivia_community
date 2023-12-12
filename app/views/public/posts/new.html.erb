@@ -24,10 +24,10 @@
               <%= form.collection_select(:genre_id, @genres, :id, :name, prompt: "ジャンルを選択してください", class: "form-select") %>
             </div>
 
-            <div class="mb-3">
+            <!--<div class="mb-3">
               <%= form.label :image, class: "form-label" %>
               <%= form.file_field :image, class: "form-control" %>
-            </div>
+            </div>-->
 
             <div class="d-grid gap-2">
               <%= form.submit "新規作成", class: "btn btn-success btn-lg" %>

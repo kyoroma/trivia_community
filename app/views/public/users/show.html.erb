@@ -22,11 +22,11 @@
 
           <h4 class="text-center mb-3">いいね登録一覧</h4>
 
-          <% if @user.favorites.any? %>
+          <% if @favorites.present? && @favorites.any? %>
             <ul class="list-group">
-              <% @user.favorites.each do |favorite| %>
+              <% @favorites.each do |favorite| %>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <%= link_to favorite.post.title, public_post_path(favorite.post), class: 'text-dark' %>
+                  <p><%= link_to truncate(favorite.post.posted_article, length: 30), public_post_path(favorite.post), class: 'text-dark' %></p> <!-- 投稿内容を表示 -->
                   <span class="badge badge-info badge-pill"><%= favorite.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
                 </li>
               <% end %>
