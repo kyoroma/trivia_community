@@ -14,7 +14,6 @@ class Post < ApplicationRecord
   validates :posted_article, presence: true
   validates :published, inclusion: { in: [true, false] }
 
-
   def self.search(params)
     if params[:q].present? && params[:tag_id].present?
       keyword_search = where("posted_article LIKE ?", "%#{params[:q]}%")

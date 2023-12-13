@@ -19,12 +19,12 @@
         <% if current_admin %>
           <li class="nav-item">
             <%= link_to admin_root_path, class: "nav-link text-light" do %>
-              <i class="fas fa-user-plus" aria-hidden="true"></i> 会員一覧
+              <i class="fas fa-users" aria-hidden="true"></i> 会員一覧
             <% end %>
           </li>
           <li class="nav-item">
             <%= link_to admin_genres_path, class: "nav-link text-light" do %>
-              <i class="fas fa-shopping-cart"></i> ジャンル一覧
+              <i class="fas fa-book"></i> ジャンル一覧
             <% end %>
           </li>
           <li class="nav-item">
@@ -35,12 +35,12 @@
         <% else %>
           <li class="nav-item">
             <%= link_to admin_genres_path, class: "nav-link text-light" do %>
-              <i class="fas fa-shopping-bag"></i> ジャンル一覧
+              <i class="fas fa-book"></i> ジャンル一覧
             <% end %>
           </li>
           <li class="nav-item">
             <%= link_to admin_users_path, class: "nav-link text-light" do %>
-              <i class="fas fa-user-plus" aria-hidden="true"></i> 会員一覧
+              <i class="fas fa-users" aria-hidden="true"></i> 会員一覧
             <% end %>
           </li>
           <li class="nav-item">

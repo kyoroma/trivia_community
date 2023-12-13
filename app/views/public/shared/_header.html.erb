@@ -15,7 +15,7 @@
       <% end %>
 
       <%= form_tag(posts_path, method: :get, class: "form-inline my-2 my-lg-0") do %>
-        <%= select_tag :tag_id, options_for_select(Tag.all.map { |tag| [tag.name, tag.id] }), include_blank: true, class: "form-control mr-sm-2" %>
+        <%= text_field_tag :tags, params[:tags], class: "form-control mr-sm-2", placeholder: "タグを入力（カンマ区切り）" %>
         <%= submit_tag "タグで検索", class: "btn btn-outline-success my-2 my-sm-0" %>
       <% end %>
 
@@ -28,7 +28,7 @@
           </li>
           <li class="nav-item">
             <%= link_to root_path, class: "nav-link text-light" do %>
-              <i class="fas fa-shopping-cart"></i> ジャンル一覧
+              <i class="fas fa-book"></i> ジャンル一覧
             <% end %>
           </li>
           <li class="nav-item">
@@ -39,12 +39,12 @@
         <% else %>
           <li class="nav-item">
             <%= link_to root_path, class: "nav-link text-light" do %>
-              <i class="fas fa-shopping-bag"></i> ジャンル一覧
+              <i class="fas fa-book"></i> ジャンル一覧
             <% end %>
           </li>
           <li class="nav-item">
             <%= link_to new_user_registration_path, class: "nav-link text-light" do %>
-              <i class="fas fa-user-plus" aria-hidden="true"></i> 新規登録
+              <i class="fas fa-user-plus"></i> 新規登録
             <% end %>
           </li>
           <li class="nav-item">

@@ -1,6 +1,6 @@
 class Public::PostsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :show]
   before_action :set_genre, only: [:create, :new], if: -> { action_name != 'new' }
-  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @q = params[:q]
@@ -91,7 +91,7 @@ class Public::PostsController < ApplicationController
   end
 
   def find_or_create_tags_from_params(p)
-    tag_names=p[:tags].split(',').map(&:strip)
+    tag_names = p[:tags]&.split(',')&.map(&:strip) || []
     tag_names.map{|tag_name|Tag.find_or_create_by(name: tag_name)}
   end
 end
