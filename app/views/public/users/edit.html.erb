@@ -22,8 +22,14 @@
               <div class="invalid-feedback">メールアドレスは必須項目です。</div>
             </div>
 
-            <div class="text-center mt-4">
-              <%= form.submit '更新', class: 'btn btn-primary', style: 'width: 130px;' %>
+            <div class="row">
+              <div class="col-md-6">
+                <%= form.submit '更新', class: 'btn btn-primary', style: 'width: 100%;' %>
+              </div>
+
+              <div class="col-md-6">
+                <%= link_to '退会', confirm_deactivation_user_path, method: :get, data: { confirm: 'アカウントを削除しますか？' }, class: 'btn btn-danger', style: 'width: 100%;' %>
+              </div>
             </div>
           <% end %>
         </div>
@@ -31,3 +37,4 @@
     </div>
   </div>
 </div>
+

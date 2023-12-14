@@ -16,7 +16,7 @@ class Admin::UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to admin_users_path, notice: 'ユーザー情報が更新されました。'
+      redirect_to admin_user_path(@user), notice: 'ユーザー情報が更新されました。'
     else
       render :edit
     end

@@ -36,7 +36,7 @@ class Public::UsersController < ApplicationController
     # ゲストユーザーの場合は退会処理を実行せず、トップページへリダイレクト
     return redirect_to root_path if current_user.guest?
 
-    current_user.update(status: 'inactive')
+    current_user.update(is_active: false)
     sign_out(current_user)
     redirect_to root_path, notice: '退会が完了しました。'
   end

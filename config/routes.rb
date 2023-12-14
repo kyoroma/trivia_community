@@ -41,10 +41,8 @@ Rails.application.routes.draw do
     resources :users, only: [:show, :edit, :update] do
       member do
         get :my_page
-      end
-      collection do
         get :confirm_deactivation
-        patch :deactivation
+        delete :deactivation
       end
     end
 
@@ -59,7 +57,7 @@ Rails.application.routes.draw do
     root to: 'homes#top'
     resources :homes, only: [:top]
     resources :posts, except: [:edit]
-    resources :users, only: [:index, :show, :edit, :update]
+    resources :users, only: [:index, :show, :edit, :update, :destroy]
     resources :comments, only: [:index, :edit, :update, :destroy, :show]
     resources :post_tags, except: [:edit]
     resources :tags, except: [:show, :destroy]
