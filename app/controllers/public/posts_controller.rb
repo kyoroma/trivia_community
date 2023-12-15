@@ -27,7 +27,13 @@ class Public::PostsController < ApplicationController
   def toggle_publish
     @post = Post.find(params[:id])
     @post.toggle!(:published)
-    redirect_to @post, notice: '投稿の公開状態を変更しました。'
+
+    if @post.valid?
+      redirect_to @post, notice: '投稿の公開状態を変更しました。'
+    else
+      flash[:alert] = 'エラーが発生しました。公開状態の変更に失敗しました。'
+      redirect_to @post
+    end
   end
 
   def new
@@ -42,7 +48,7 @@ class Public::PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
+    @post = Post.includes(:user).find(params[:id])
     @comments = @post.comments # コメント一覧を取得
     # 新規コメント投稿用の空のコメントオブジェクトを作成
     @new_comment = Comment.new
@@ -52,6 +58,7 @@ class Public::PostsController < ApplicationController
     @genres = Genre.all
     @genre = Genre.find_by(id: params[:post][:genre_id])
     @post = @genre.posts.new(post_params)
+    @post.user = current_user
 
     # タグが存在するか確認してから設定
     if @post.tags.present?
@@ -59,9 +66,9 @@ class Public::PostsController < ApplicationController
       if @post.save
         redirect_to post_path(@post), notice: '投稿が成功しました。'
       else
+        Rails.logger.debug "Post data: #{params[:post]}"
         flash.now[:alert] = '投稿に失敗しました。'
         flash.now[:alert_details] = @post.errors.full_messages.join(', ')
-        Rails.logger.debug "Post save result: #{@post.errors}"
         render :new
       end
     else

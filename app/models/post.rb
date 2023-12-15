@@ -10,9 +10,11 @@ class Post < ApplicationRecord
   has_many :tags, through: :post_tags
 
   belongs_to :genre
+  belongs_to :user
 
   validates :posted_article, presence: true
   validates :published, inclusion: { in: [true, false] }
+  validates :user, presence: true
 
   def self.search(params)
     if params[:q].present? && params[:tag_id].present?

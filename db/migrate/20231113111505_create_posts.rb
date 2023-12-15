@@ -6,6 +6,7 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.integer :favorites_count
       t.boolean :published, default: false
       t.integer :genre_id, null: false
+      t.references :user, null: false, foreign_key: true
 
       t.index [:genre_id], name: "index_posts_on_genre_id"
     end

@@ -100,9 +100,11 @@ ActiveRecord::Schema.define(version: 2023_12_14_142811) do
     t.integer "favorites_count"
     t.boolean "published", default: false
     t.integer "genre_id", null: false
+    t.integer "user_id", null: false
     t.string "title"
     t.text "content"
     t.index ["genre_id"], name: "index_posts_on_genre_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -156,5 +158,6 @@ ActiveRecord::Schema.define(version: 2023_12_14_142811) do
   add_foreign_key "favorites", "posts"
   add_foreign_key "favorites", "users"
   add_foreign_key "post_tags", "posts"
+  add_foreign_key "posts", "users"
   add_foreign_key "taggings", "tags"
 end
