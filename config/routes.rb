@@ -4,17 +4,17 @@ Rails.application.routes.draw do
     get 'post_images/index'
     get 'post_images/show'
   end
-  namespace :public do
-    resources :genres, only: [:index, :show]
-    resources :posts do
-      resource :favorite, only: [:create, :destroy]
-      resources :comments, only: [:create, :destroy]
-    end
+  #namespace :public do
+    #resources :genres, only: [:index, :show], module: :public
+    #resources :posts, module: :public do
+      #resource :favorite, only: [:create, :destroy]
+      #resources :comments, only: [:create, :destroy]
+    #end
 
-    resources :post_images, only: [:new, :index, :show]
-    resources :users, only: [:show, :edit, :update]
+    #resources :post_images, only: [:new, :index, :show], module: :public
+    #resources :users, only: [:show, :edit, :update], module: :public
 
-  end
+  #end
   devise_for :admin, skip: [:registrations, :passwords], controllers: {
     sessions: "admin/sessions"
   }

@@ -20,7 +20,7 @@
         <ul class="list-group">
           <% @posts.each do |post| %>
             <li class="list-group-item">
-              <%= link_to post.posted_article.present? ? post.posted_article.truncate(100) : '内容がありません。', public_post_path(post) %>
+              <%= link_to post.posted_article.present? ? post.posted_article.truncate(100) : '内容がありません。', post_path(post) %>
               <div class="mt-2">
                 <!--<strong>タグ：</strong>
                 <% post.tags.each do |tag| %>

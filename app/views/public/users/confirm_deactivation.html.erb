@@ -11,7 +11,7 @@
           <p class="card-text">アカウントを削除すると元に戻すことはできません。本当に削除しますか？</p>
 
           <%= link_to '削除する', deactivation_user_path(current_user), method: :delete, class: 'btn btn-danger', data: { confirm: '本当にアカウントを削除しますか？' } %>
-          <%= link_to 'キャンセル', public_user_path(current_user), class: 'btn btn-secondary ml-2' %>
+          <%= link_to 'キャンセル', user_path(current_user), class: 'btn btn-secondary ml-2' %>
         </div>
       </div>
     </div>

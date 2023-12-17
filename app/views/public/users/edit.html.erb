@@ -9,7 +9,7 @@
         <div class="card-body">
           <h2 class="card-title text-center mb-4">ユーザー情報の編集</h2>
 
-          <%= form_with(model: @user, url: public_user_path, method: :patch, local: true, html: { class: 'needs-validation', novalidate: true }) do |form| %>
+          <%= form_with(model: @user, url: user_path, method: :patch, local: true, html: { class: 'needs-validation', novalidate: true }) do |form| %>
             <div class="mb-3">
               <%= form.label :ユーザーネーム, class: 'form-label' %>
               <%= form.text_field :name, class: 'form-control', required: true %>
