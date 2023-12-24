@@ -50,6 +50,8 @@ Rails.application.routes.draw do
       member do
         patch 'toggle_publish'
       end
+
+      resources :comments, only: [:create]
     end
   end
 
