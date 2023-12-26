@@ -26,6 +26,8 @@ class User < ApplicationRecord
       user.guest = true
     end
 
+    guest_user.guest = true if guest_user.respond_to?(:guest=)
+
     if guest_user.save
       guest_user
     else
