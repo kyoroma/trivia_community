@@ -38,9 +38,9 @@ class Public::SessionsController < Devise::SessionsController
     root_path # ログアウト後の遷移先
   end
 
-  def public_guest_sign_in
-    user = User.create_guest
-    sign_in(user)
+  def guest_sign_in
+    user = User.guest
+    sign_in user
     redirect_to root_path, notice: "ゲストユーザーとしてログインしました。"
   end
 

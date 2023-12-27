@@ -13,29 +13,27 @@ class User < ApplicationRecord
 
   attribute :is_active, :boolean, default: true
 
-  def guest?
-    email == 'guest@example.com'
-  end
+  #def guest?
+    #email == 'guest@example.com'
+  #end
 
   # ゲストユーザーを作成するメソッド
-  def self.create_guest
-    # 既に同じメールアドレスのユーザーが存在するか確認
-    guest_user = find_or_initialize_by(email: 'guest@example.com') do |user|
+  def self.guest
+    find_or_create_by(email: 'guest@example.com') do |user|
       user.name = 'Guest User'
       user.password = Devise.friendly_token[0, 20]
-      user.guest = true
     end
 
-    guest_user.guest = true if guest_user.respond_to?(:guest=)
+    #guest_user.assign_attributes(guest: true)
 
-    if guest_user.save
-      guest_user
-    else
+    #if guest_user.save
+      #guest_user
+    #else
       # ゲストユーザーの作成に失敗した場合の処理を追加
       # 例えばエラーログを記録したり、特定の処理を行ったりします
-      Rails.logger.error("Failed to create guest user: #{guest_user.errors.full_messages}")
-      nil
-    end
+      #Rails.logger.error("Failed to create guest user: #{guest_user.errors.full_messages}")
+      #nil
+    #end
   end
 
   def active_for_authentication?
