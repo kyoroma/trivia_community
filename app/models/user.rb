@@ -12,6 +12,11 @@ class User < ApplicationRecord
   validates :name, presence: true
 
   attribute :is_active, :boolean, default: true
+  
+  
+  def guest?
+    email == 'guest@example.com'
+  end
 
   # ゲストユーザーを作成するメソッド
   def self.guest
